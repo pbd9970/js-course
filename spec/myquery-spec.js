@@ -22,7 +22,7 @@ describe("myQuery", function () {
   });
 
   describe("General each function", function () {
-    xit("iterates through an array", function () {
+    it("iterates through an array", function () {
       var testResult = [];
       var someArray = [10, 20, 30];
       $.each(someArray, function (number) {
@@ -38,18 +38,19 @@ describe("myQuery", function () {
 
   describe("Selectors", function () {
 
-    xit("selects an element by id", function() {
+    it("selects an element by id", function() {
       var elem = $('#profile').get(0);
+      console.log("elem: " + elem);
       expect(elem.className).toEqual('noice');
     });
 
-    xit("selects elements by class name", function() {
+    it("selects elements by class name", function() {
       var buttons = $('.button');
       expect(buttons.get(0).className).toMatch(/first/);
       expect(buttons.get(1).className).toMatch(/second/);
     });
 
-    xit("selects elements by tag name", function() {
+    it("selects elements by tag name", function() {
       var anchors = $('a');
       expect(anchors.length).toEqual(2)
       expect(anchors.get(0).className).toEqual("button second");
@@ -62,7 +63,7 @@ describe("myQuery", function () {
   });
 
   describe("Selected elements each function", function () {
-    xit("iterates through all selected elements", function() {
+    it("iterates through all selected elements", function() {
       var testResult = [];
       $('.button').each(function (elem, i) {
         testResult.push(elem.className + ' ' + i);
@@ -79,8 +80,12 @@ describe("myQuery", function () {
   });
 
   describe("addClass", function () {
+    it("can add a class name to an element", function() {
+      $(div).get(0).addClass('newClass')
+      expect(document.getElementById("profile").className).toMatch(/newClass/);
     // TODO: Write tests for addClass
     // HINT: Test using .toMatch() like the selector test
+    });
   });
 
   describe("Modifying CSS", function () {
