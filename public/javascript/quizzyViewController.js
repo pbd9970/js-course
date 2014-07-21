@@ -12,17 +12,20 @@
       return this;
     };
 
-    function testAnswer() {
-      this.$el.html( this.template
+    function submitAnswer() {
+      answer = this.$el.val();
+      return quizzy.isCorrect(answer, this.model.answer);
+    };
 
     return {
       render            : displayQuestion,
       template          : questionPanel,
 
       events            : {
-        "click .submit-answer"  : "testAnswer"
- 
+        "click .submit-answer"  : "testAnswer",
+      }
     }
+  })();)
 
     function PreviousQuestion() {
     };
@@ -45,57 +48,10 @@
     }
   })());
 
-  window.people
+  window.quiz
 
 
 })();
-
-
-
-
-
-
-
-
-
-
-
-
-  var currentQuestion = 0;
-
-  function getCurrentQuestion(index) {
-    if (!index) { index = currentQuestion }
-    currentQuestion = index
-    return questionsAnswers[index]['question'];
-  }
-
-  function validateAndShowAnswer(answer) {
-    var correct_answer = questionsAnswers[currentQuestion]['answer'];
-    var correct  = (answer === correct_answer);
-    return [correct, correct_answer];
-  };
-
-  function nextQuestion() {
-    currentQuestion++;
-  };
-
-  function previousQuestion() {
-    currentQuestion--;
-  };
-
-  return {question  : getCurrentQuestion,
-          next      : nextQuestion,
-          previous  : previousQuestion,
-          testAnswer: validateAndShowAnswer};
-})();
-
-function displayAnswerField() {
-
-
-$(document).on('click', '.start', function () {
-  $('.start').css('display', 'none');
-  $('.question').text(questions.question());
-});
 
 $('#container').on('click', '.previous-question', function () {
   questions.previous();

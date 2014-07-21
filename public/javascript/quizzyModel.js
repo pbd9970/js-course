@@ -1,5 +1,5 @@
 (function () {
-  var questionsAnswers = [
+  window.questionsAnswers = [
     { question : "question1"
       , answer : "answer1"
     },
