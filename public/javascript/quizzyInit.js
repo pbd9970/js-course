@@ -1,3 +1,7 @@
+window.quizzy = {};
+
 $('.start').on('click', function () {
-  $('.start').hide("slow", quiz.reset(questionAnswers, {reset:true});
+  $('.start').hide('slow', function() {
+    quizzy.questions.reset( quizzy.data, {reset:true} );
+  });
 });
