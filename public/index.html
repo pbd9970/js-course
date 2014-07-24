@@ -19,12 +19,12 @@
         </div>
           <br /><br /><br />
           <div class="text-center start">
-            <button class="button radius large">Start Quiz</button>
-            <form class="name hide">
+            <button href="#" class="button radius large">Start Quiz</button>
+            <form class="name hide" action="#">
               <div class="columns medium-10 large-8 medium-centered">
                 <div class="row collapse">
                   <div class="columns small-10">
-                    <input type="text" placeholder="Enter Your Name" class="columns small-5"/>
+                    <input type="text" autofocus placeholder="Enter Your Name" class="columns small-5"/>
                   </div>
                   <div class="columns small-2">
                     <button type="submit" class="button postfix radius" href="#">GO</button>
@@ -43,15 +43,14 @@
       <script type="text/template" class="question-panel">
         <h2 class="text-center">{{= question }}</h2><br />
         <div class="row">
-          <div class="columns medium-10 medium-centered large-8 large-centered">
-            <form class='answer'>
+          <div class="columns medium-8 medium-centered large-6 large-centered">
+            <form class='answer' action="#">
               <label for="answer" class="result-label"></label>
-              <input type="text" placeholder="Your Answer" class="columns large-6"/>
+              <input type="text" autofocus autocomplete='off' placeholder="Your Answer" class="columns large-6"/>
               <small class="result"></small>
+              <br />
+              <div class="button-div"></div>
             </form>
-          </div>
-          <br />
-          <div class="columns medium-11 button-div">
           </div>
         </div>
       </script>

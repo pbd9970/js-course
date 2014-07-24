@@ -22,8 +22,8 @@
     };
 
     function nextQuestion() {
+      this.index++;
       if (this.index < this.collection.length) {
-        this.index++;
         this.displayCurrentQuestion();
       } else {
         this.quizOver();
@@ -37,13 +37,21 @@
         this.displayCurrentQuestion();
       } else {
         console.log("ERROR: CAN'T GO BACK FROM HERE");
-        return this;        
+        return this;
       }
     };
 
     function quizOver() {
       console.log("GAME OVER");
-      this.$el.text("GAME OVER").el;
+      this.$el.text("GAME OVER");
+      quizResults = {}
+      quizResults.name = this.name;
+
+      quizzy.bl.hasHigherValue(quizzy.bl.get);
+      console.log(this);
+      console.log
+      //quizzy.bl.logUserResult
+      quizzy.reset();
       return this;
     };
 
@@ -55,11 +63,12 @@
       nextQuestion            : nextQuestion,
       previousQuestion        : previousQuestion,
       quizOver                : quizOver,
-      quizOver                : quizOver,
+      quizReset               : quizzy.reset,
 
       events                  : {
         "click .next-question"      : "nextQuestion",
         "click .previous-question"  : "previousQuestion",
+        "click .reset-quiz"         : "quizReset",
       }
     }
   })());

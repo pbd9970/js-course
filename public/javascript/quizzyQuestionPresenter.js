@@ -23,7 +23,7 @@
     };
 
     function submitAnswer() {
-      var userAnswer = this.$('.answer > input').val();
+      this.model.userAnswer = this.$('.answer > input').val();
       var correctAnswer = this.model.get('answer')
       correct = quizzy.bl.isCorrect(userAnswer, correctAnswer);
       if (correct) {
@@ -64,8 +64,6 @@
       this.quizStats.push( Math.round(quizStatsAvg) );
       answerModel['quizStats'] = this.quizStats;
 
-      console.log(answerModel);
-
       this.$el.append( this.answerModalTemplate(answerModel) );
       this.$('#answerModal').foundation('reveal', 'open');
       return this;
@@ -84,8 +82,8 @@
       incorrectAnswer           : incorrectAnswer,
 
       events                    : {
-        "click .submit-answer"  : "submitAnswer",
-        "click .reveal-answer"  : "revealAnswer"
+        "submit .submit-answer"  : "submitAnswer",
+        "click  .reveal-answer"  : "revealAnswer"
       }
     }
   })());
