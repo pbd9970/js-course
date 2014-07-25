@@ -2,10 +2,15 @@
   var QuizPresenter = Backbone.View.extend((function () {
 
     function initialize() {
-      this.collection.on('reset', function(index) {
-        this.quiz_id = _.uniqueId('quiz_');
+      this.collection.on('reset', function() {
+        this.quiz_id = 'quiz_' + _.random(10,99);
         this.index = 0;
         this.displayCurrentQuestion();
+      }, this);
+
+      this.collection.on('change:userAnswer', function() {
+        this.collection.answeredQuestions = _.filter( this.collection.models, function(model) { return model.has('userAnswer'); } );
+        this.collection.answeredCorrectly = _.filter( this.collection.answeredQuestions, function(model) { return model.get('correct') === true; });;
       }, this);
     };
 
@@ -16,7 +21,8 @@
     function displayCurrentQuestion () {
       this.$el.empty();
       var questionView = new quizzy.DisplayQuestion({
-        model: this.getCurrentQuestion()
+        model: this.getCurrentQuestion(),
+        collection: this.collection
       });
       this.$el.html(questionView.render(this.quiz_id).el);
     };
@@ -48,8 +54,6 @@
       quizResults.name = this.name;
 
       quizzy.bl.hasHigherValue(quizzy.bl.get);
-      console.log(this);
-      console.log
       //quizzy.bl.logUserResult
       quizzy.reset();
       return this;
@@ -69,6 +73,7 @@
         "click .next-question"      : "nextQuestion",
         "click .previous-question"  : "previousQuestion",
         "click .reset-quiz"         : "quizReset",
+        "click  .reveal-answer"     : "revealAnswer"
       }
     }
   })());

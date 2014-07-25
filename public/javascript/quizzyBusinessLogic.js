@@ -1,8 +1,6 @@
 (function () {
   function BusinessLogic() {
 
-    var scores = {}
-
     this.isCorrect = function (answer, correctAnswer) {
       return answer.toLowerCase() === correctAnswer.toLowerCase();
     };
@@ -14,52 +12,45 @@
       return _.map(scoreArray, function(n) { return parseInt(n) } );
     };
 
-    this._computeScore = function (score, answerIsCorrect) {
-      scoreArray = this._sanitizeArray(score);
-      if (typeof answerIsCorrect !== 'undefined') {
-        scoreArray[0] += answerIsCorrect;
-        scoreArray[1] ++;
-        newScoreAvg = ( parseFloat(scoreArray[0]) / parseFloat(scoreArray[1]) ) * 100;
-        scoreArray[2] = parseInt(newScoreAvg);
+    this.compareArrays = function(array1) {
+      var index = array1.length;
+      while (index--) {
+        test = array1[index];
+        _.each( arguments, function(array) {
+          if (!array[index] && array[index] !== test) {
+            return false;
+          }
+        });
       }
-      return scoreArray;
+      return true;
     };
-      
+
+    this.computeScore = function(correctAnswers, totalQuestions) {
+      if ( Array.isArray( correctAnswers ) ) { correctAnswers = correctAnswers.length; }
+      if ( Array.isArray( totalQuestions ) ) { totalQuestions = totalQuestions.length; }
+
+      score = 100 * ( parseFloat(correctAnswers) / parseFloat(totalQuestions) );
+      return parseInt(score);
+    };
+
     this.trackQuestionStats = function (questionId, answerIsCorrect) {
-      // Score is kept by array [correctAnswers, totalQuestions, percentCorrect]
-      var localQuestionStats = localStorage.getItem(questionId) || [0, 0, 0];
-      localQuestionStats = this._computeScore(localQuestionStats, answerIsCorrect);
+      // Score is kept by array [correctAnswers, totalQuestions]
+      var localQuestionStats = localStorage.getItem(questionId) || [0, 0];
+      localQuestionStats[0] += answerIsCorrect;
+      localQuestionStats[1] ++;
 
       localStorage.setItem(questionId, localQuestionStats)
       return localQuestionStats;
     };
 
-    this.keepScore = function (quizId, answerIsCorrect) {
-      // Score is kept by array [correctAnswers, totalQuestions, percentCorrect]
-      var score = scores[quizId] || [0, 0, 0];
-      score = this._computeScore(score, answerIsCorrect);
+    this.setUserHighScore = function (name, userScore, numberCorrect) {
+      // Returns true if successful
+      if (!name || !userScore || !numberCorrect) { return false; }
 
-      scores[quizId] = score;
-      return score.slice();
-    };
-
-    this.getScore = function (quizId, returnObj) {
-      returnObj = returnObj || {};
-      score = scores[quizId];
-      returnObj.correctAnswers = score[0];
-      returnObj.totalQuestions = score[1];
-      returnObj.percentCorrect = score[2];
-      return returnObj;
-    };
-
-    this.logUserResults = function (name, quizId) {
-      // Returns an array [correctAnswers, percentCorrect]
       name = name.toLowerCase();
-      var score = scores[quizId];
-      score = this._computeScore(score, answerIsCorrect);
 
-      localStorage.setItem(name, [score[0], score[2]]);
-      return [score[0], score[2]];
+      localStorage.setItem(name, [userScore, numberCorrect]);
+      return this.compareArrays([userScore, numberCorrect], this.getUserHighScore(name) );
     };
 
     this.getUserHighScore = function(name) {
@@ -67,16 +58,13 @@
       return this._sanitizeArray(userHighScore);
     };
 
-    this.hasHigherValue = function(valueArray, testArray) {
-      // Returns true if correctAnswers or percentCorrect match or exceed all-time high for user.
-      var result = false;
-      index = resultArray.length;
-      while (index--) {
-        if (currentResultArray[index] >= userHighScoreArray[index]) {
-          result = true;
+    this.isHighScore = function(userScore, highScore) {
+      // Returns true if percentCorrect exceeds all-time high or
+      // if it matches and correctAnswers exceeds all-time high for user.
+      if (userScore[0] === highScore[0]) {
+        return userScore[1] > highScore[1];
         }
-      }
-      return result;
+      return userScore[0] > highScore[0];
     };
   };
 
