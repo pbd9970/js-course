@@ -26,8 +26,8 @@
     };
 
     this.computeScore = function(correctAnswers, totalQuestions) {
-      if ( Array.isArray( correctAnswers ) ) { correctAnswers = correctAnswers.length; }
-      if ( Array.isArray( totalQuestions ) ) { totalQuestions = totalQuestions.length; }
+      if ( correctAnswers.length ) { correctAnswers = correctAnswers.length; }
+      if ( totalQuestions.length ) { totalQuestions = totalQuestions.length; }
 
       score = 100 * ( parseFloat(correctAnswers) / parseFloat(totalQuestions) );
       return parseInt(score);
@@ -36,6 +36,7 @@
     this.trackQuestionStats = function (questionId, answerIsCorrect) {
       // Score is kept by array [correctAnswers, totalQuestions]
       var localQuestionStats = localStorage.getItem(questionId) || [0, 0];
+      localQuestionStats = this._sanitizeArray(localQuestionStats);
       localQuestionStats[0] += answerIsCorrect;
       localQuestionStats[1] ++;
 

@@ -48,13 +48,20 @@
     };
 
     function quizOver() {
-      console.log("GAME OVER");
-      this.$el.text("GAME OVER");
+      var message = "GAME OVER"; 
+      finalScore = quizzy.bl.computeScore( this.collection.answeredCorrectly, this.collection.answeredQuestions );
+      highScore = quizzy.bl.getUserHighScore(quizzy.name);
+      if ( quizzy.bl.isHighScore( [finalScore, this.collection.answeredCorrectly], highScore )) {
+        message += " Congratulations! You set a new high score!";
+        quizzy.bl.setUserHighScore(quizzy.name, finalScore, this.collection.answeredCorrectly); 
+      }
+
+      this.$el.text(message);
+      //this.$el.html( this.questionTemplate( this.model.toJSON() ) );
       quizResults = {}
-      quizResults.name = this.name;
+      quizResults.name = quizzy.name;
 
       quizzy.bl.hasHigherValue(quizzy.bl.get);
-      //quizzy.bl.logUserResult
       quizzy.reset();
       return this;
     };
