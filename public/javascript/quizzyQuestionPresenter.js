@@ -2,8 +2,9 @@
   var DisplayQuestion = Backbone.View.extend((function (){
 
     function displayQuestion(quiz_id) {
+      this.$('#question-panel-div').empty();
       this.quiz_id = quiz_id;
-      this.$el.html( this.questionTemplate( this.model.toJSON() ) );
+      this.$('#question-panel-div').html( this.questionTemplate( this.model.toJSON() ) );
       this.displayAnswerSubmitButton('answer');
       return this;
     };
@@ -41,9 +42,6 @@
       return this;
     };
 
-    function scoreQuiz() {
-    };
-
     function correctAnswer() {
       this.displayAnswerSubmitButton('right');
       this.$('.result-label').prepend("Correct!").addClass('correct');
@@ -71,8 +69,8 @@
       answerModel['quizTotal'  ] = quizzy.quiz.collection.answeredQuestions.length;
       answerModel['quizScore'  ] = quizzy.bl.computeScore(answerModel['quizCorrect'], answerModel['quizTotal']);
 
-      this.$el.append( this.answerModalTemplate(answerModel) );
-      this.$('#answerModal').foundation('reveal', 'open');
+      this.$('#answer-modal').html( this.answerModalTemplate(answerModel) );
+      this.$('#answer-modal').foundation('reveal', 'open');
       return this;
     };
 

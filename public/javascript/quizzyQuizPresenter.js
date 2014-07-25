@@ -19,12 +19,10 @@
     };
 
     function displayCurrentQuestion () {
-      this.$el.empty();
       var questionView = new quizzy.DisplayQuestion({
         model: this.getCurrentQuestion(),
-        collection: this.collection
       });
-      this.$el.html(questionView.render(this.quiz_id).el);
+      this.$el.append(questionView.render(this.quiz_id).el);
     };
 
     function nextQuestion() {
@@ -49,11 +47,15 @@
 
     function quizOver() {
       var message = "GAME OVER"; 
-      finalScore = quizzy.bl.computeScore( this.collection.answeredCorrectly, this.collection.answeredQuestions );
+      finalAnsweredCorrectly = this.collection.answeredCorrectly;
+      finalAnsweredQuestions = this.collection.answeredQuestions;
+      finalScore = quizzy.bl.computeScore( finalAnsweredCorrectly, finalAnsweredQuestions);
+
       highScore = quizzy.bl.getUserHighScore(quizzy.name);
-      if ( quizzy.bl.isHighScore( [finalScore, this.collection.answeredCorrectly], highScore )) {
+      isHighScore = quizzy.bl.isHighScore([ finalScore, finalAnsweredCorrectly ], highScore);
+      if (isHighScore) {
         message += " Congratulations! You set a new high score!";
-        quizzy.bl.setUserHighScore(quizzy.name, finalScore, this.collection.answeredCorrectly); 
+        quizzy.bl.setUserHighScore(quizzy.name, finalScore, finalAnsweredCorrectly); 
       }
 
       this.$el.text(message);
@@ -61,7 +63,6 @@
       quizResults = {}
       quizResults.name = quizzy.name;
 
-      quizzy.bl.hasHigherValue(quizzy.bl.get);
       quizzy.reset();
       return this;
     };
@@ -80,7 +81,6 @@
         "click .next-question"      : "nextQuestion",
         "click .previous-question"  : "previousQuestion",
         "click .reset-quiz"         : "quizReset",
-        "click  .reveal-answer"     : "revealAnswer"
       }
     }
   })());

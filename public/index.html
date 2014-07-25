@@ -34,6 +34,8 @@
             </form>
           </div>
           <div class="quiz-app">
+            <div id='question-panel-div' class='row'></div>
+            <div id='answer-modal-div' class='medium reveal-modal' data-reveal></div>
           </div>
           <br /><br /><br />
         </div>
@@ -41,8 +43,7 @@
         
 
       <script type="text/template" class="question-panel">
-        <h2 class="text-center">{{= question }}</h2><br />
-        <div class="row">
+        <h2 class="columns small-12 text-center">{{= question }}</h2><br />
           <div class="columns medium-8 medium-centered large-6 large-centered">
             <form class='answer' action="#">
               <label for="answer" class="result-label"></label>
@@ -62,8 +63,7 @@
             </ul>
       </script>
 
-      <script type="text/template" class="answer-modal">
-        <div id='answerModal' class='medium reveal-modal' data-reveal>
+      <script type="text/template" class="answer-panel">
           <div class='container panel radius'>
             <div class='callout panel radius'>
               <h3 class='text-center'>{{= answer }}</h3>
@@ -80,7 +80,6 @@
               </h5>
             </div>
           </div>
-        </div>
       </script>
 
 

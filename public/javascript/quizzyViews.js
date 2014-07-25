@@ -6,7 +6,7 @@
   var answerButtonsHTML  = $('.answer-buttons').html()
   quizzy.answerButtons   = _.template(answerButtonsHTML);
 
-  var answerPanelHTML   = $('.answer-modal').html()
+  var answerPanelHTML   = $('.answer-panel').html()
   quizzy.answerPanel    = _.template(answerPanelHTML);
 
 })();
